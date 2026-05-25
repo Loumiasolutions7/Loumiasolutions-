@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loumia Solutions — AI Tools, Profit Calculator & Translator</title>
+<meta name="description" content="Loumia Solutions — Free AI Tools directory, Digital Profit Calculator and Text Translator for creators worldwide.">
+<meta name="keywords" content="AI tools, profit calculator, digital marketing, faceless marketing, online income">
+<meta property="og:title" content="Loumia Solutions — AI Tools & Profit Calculator">
+<meta property="og:description" content="Discover the best AI tools and calculate your digital profit margins. Free forever.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#00c9a7">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #060b0b;
+    --surface: #0c1515;
+    --card: #111d1d;
+    --border: #1c3030;
+    --accent: #00c9a7;       /* teal */
+    --accent2: #d4a017;      /* gold */
+    --accent3: #3b82f6;      /* blue */
+    --accent4: #00e5c4;      /* bright teal highlight */
+    --text: #dff0ee;
+    --muted: #5a8585;
+    --font-display: 'Syne', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-display);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,201,167,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,201,167,0.035) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(6,11,11,0.9);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .logo {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+  }
+  .logo span { color: var(--text); }
+
+  .nav-right { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+  .nav-links { display: flex; gap: 0.5rem; }
+
+  .nav-btn {
+    background: none;
+    border: 1px solid transparent;
+    color: var(--muted);
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .nav-btn:hover, .nav-btn.active {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(0,201,167,0.06);
+  }
+
+  /* CURRENCY SWITCHER */
+  .currency-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.3rem 0.7rem;
+    transition: border-color 0.2s;
+  }
+  .currency-switcher:hover { border-color: var(--accent2); }
+  .currency-switcher select {
+    background: none;
+    border: none;
+    color: var(--accent2);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+    letter-spacing: 0.05em;
+  }
+  .currency-flag { font-size: 0.9rem; }
+
+  /* SECTIONS */
+  .section {
+    display: none;
+    position: relative;
+    z-index: 1;
+    padding: 3rem 2rem 5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    animation: fadeUp 0.4s ease both;
+  }
+  .section.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 5rem 2rem 3rem;
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 0.3rem 0.9rem;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.1em;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.2rem;
+  }
+  .hl-teal  { color: var(--accent); }
+  .hl-gold  { color: var(--accent2); }
+  .hl-blue  { color: var(--accent3); }
+
+  .hero-sub {
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 520px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+  }
+
+  .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.9rem;
+    padding: 0.75rem 1.8rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    transition: all 0.2s;
+    box-shadow: 0 0 30px rgba(0,201,167,0.25);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(0,201,167,0.45); }
+
+  .btn-ghost {
+    background: none;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.75rem 1.8rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--accent2); color: var(--accent2); }
+
+  .stat-num-teal  { font-size:2rem;font-weight:800;font-family:var(--font-mono);color:var(--accent); }
+  .stat-num-gold  { font-size:2rem;font-weight:800;font-family:var(--font-mono);color:var(--accent2); }
+  .stat-num-blue  { font-size:2rem;font-weight:800;font-family:var(--font-mono);color:var(--accent3); }
+  .stat-lbl { font-size:0.78rem;color:var(--muted);font-family:var(--font-mono); }
+
+  /* EMAIL OPT-IN */
+  .optin-section {
+    position: relative; z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0.5rem 2rem 4rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .optin-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .optin-card::before {
+    content:'';
+    position:absolute;
+    top:-80px; left:50%;
+    transform:translateX(-50%);
+    width:500px; height:220px;
+    background:radial-gradient(ellipse, rgba(212,160,23,0.1) 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .optin-card::after {
+    content:'';
+    position:absolute;
+    bottom:-60px; right:-60px;
+    width:300px; height:300px;
+    background:radial-gradient(ellipse, rgba(59,130,246,0.07) 0%, transparent 70%);
+    pointer-events:none;
+  }
+
+  .optin-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--accent2);
+    border: 1px solid var(--accent2);
+    padding: 0.28rem 0.9rem;
+    border-radius: 100px;
+    margin-bottom: 1.2rem;
+    letter-spacing: 0.1em;
+  }
+
+  .optin-title {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.7rem;
+    line-height: 1.1;
+  }
+
+  .optin-sub {
+    color: var(--muted);
+    font-size: 0.92rem;
+    max-width: 440px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+  }
+
+  .optin-perks { display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap; margin-bottom:2rem; }
+  .optin-perk {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .optin-perk span { color: var(--accent); }
+
+  .optin-form { display:flex; gap:0.6rem; max-width:500px; margin:0 auto; flex-wrap:wrap; justify-content:center; }
+
+  .optin-input {
+    flex: 1;
+    min-width: 180px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .optin-input::placeholder { color: var(--muted); }
+  .optin-input:focus { border-color: var(--accent2); }
+  .optin-input.error { border-color: #f87171; }
+
+  .optin-btn {
+    background: linear-gradient(135deg, var(--accent2), #e8b93a);
+    color: #000;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.88rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    transition: all 0.2s;
+    box-shadow: 0 0 24px rgba(212,160,23,0.3);
+    white-space: nowrap;
+  }
+  .optin-btn:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(212,160,23,0.5); }
+  .optin-btn:disabled { opacity: 0.6; cursor: wait; }
+
+  .optin-privacy { margin-top: 0.9rem; font-family:var(--font-mono); font-size:0.68rem; color:var(--muted); }
+
+  .optin-success {
+    display: none;
+    padding: 1rem 1.2rem;
+    background: rgba(0,201,167,0.08);
+    border: 1px solid rgba(0,201,167,0.3);
+    border-radius: 10px;
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    color: var(--accent);
+    max-width: 460px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  .optin-success.show { display: block; }
+
+  .optin-error-msg {
+    display: none;
+    margin-top: 0.7rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: #f87171;
+  }
+  .optin-error-msg.show { display: block; }
+
+  /* SECTION HEADER */
+  .section-header { margin-bottom: 2.5rem; }
+  .section-label { font-family:var(--font-mono); font-size:0.72rem; color:var(--accent); letter-spacing:0.15em; text-transform:uppercase; margin-bottom:0.5rem; }
+  .section-title { font-size:2rem; font-weight:800; letter-spacing:-0.03em; }
+  .section-desc { color:var(--muted); margin-top:0.4rem; font-size:0.95rem; line-height:1.6; }
+
+  /* FILTER TABS */
+  .filter-tabs { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:2rem; }
+  .filter-tab {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-tab:hover, .filter-tab.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(0,201,167,0.06);
+  }
+
+  /* TOOL GRID */
+  .tool-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:1rem; }
+
+  .tool-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.4rem;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .tool-card::before {
+    content:''; position:absolute; top:0; left:0; right:0;
+    height:2px;
+    background: var(--tool-accent, var(--accent));
+    opacity:0; transition:opacity 0.2s;
+  }
+  .tool-card:hover { border-color:var(--tool-accent, var(--accent)); transform:translateY(-3px); box-shadow:0 8px 30px rgba(0,0,0,0.5); }
+  .tool-card:hover::before { opacity:1; }
+  .tool-card.hidden { display:none; }
+
+  .tool-icon { width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.3rem; margin-bottom:0.9rem; background:var(--tool-bg, rgba(0,201,167,0.1)); }
+  .tool-name { font-size:1rem; font-weight:700; margin-bottom:0.3rem; letter-spacing:-0.01em; }
+  .tool-desc { font-size:0.82rem; color:var(--muted); line-height:1.5; margin-bottom:0.9rem; }
+  .tool-footer { display:flex; align-items:center; justify-content:space-between; }
+
+  .tool-tag { font-family:var(--font-mono); font-size:0.68rem; padding:0.2rem 0.6rem; border-radius:4px; border:1px solid; letter-spacing:0.05em; }
+  .tool-pricing { font-family:var(--font-mono); font-size:0.72rem; color:var(--muted); }
+  .tool-pricing.free    { color:#4ade80; }
+  .tool-pricing.freemium { color:var(--accent2); }
+  .tool-pricing.paid    { color:var(--accent3); }
+
+  .tool-link {
+    font-size:0.75rem; color:var(--muted); font-family:var(--font-mono);
+    text-decoration:none; padding:0.3rem 0.7rem;
+    border:1px solid var(--border); border-radius:5px; transition:all 0.2s;
+  }
+  .tool-link:hover { border-color:var(--accent); color:var(--accent); }
+
+  /* CALCULATOR */
+  .calc-layout { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; align-items:start; }
+
+  .calc-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.8rem;
+  }
+  .calc-panel h3 { font-size:1rem; font-weight:700; margin-bottom:1.4rem; display:flex; align-items:center; gap:0.6rem; }
+  .dot-teal { width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);display:inline-block; }
+  .dot-gold { width:8px;height:8px;border-radius:50%;background:var(--accent2);box-shadow:0 0 10px var(--accent2);display:inline-block; }
+  .dot-blue { width:8px;height:8px;border-radius:50%;background:var(--accent3);box-shadow:0 0 10px var(--accent3);display:inline-block; }
+
+  .form-group { margin-bottom:1.2rem; }
+  label { display:block; font-size:0.78rem; font-family:var(--font-mono); color:var(--muted); margin-bottom:0.4rem; letter-spacing:0.05em; }
+  input[type="number"], select {
+    width:100%; background:var(--surface); border:1px solid var(--border);
+    color:var(--text); font-family:var(--font-mono); font-size:0.95rem;
+    padding:0.65rem 0.9rem; border-radius:8px; outline:none; transition:border-color 0.2s;
+    -moz-appearance:textfield;
+  }
+  input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance:none; }
+  input:focus, select:focus { border-color:var(--accent); }
+  select option { background:var(--surface); }
+
+  .calc-btn {
+    width:100%; background:linear-gradient(135deg, var(--accent), #00a88a);
+    color:#000; font-family:var(--font-display); font-weight:800;
+    font-size:0.95rem; padding:0.9rem; border:none; border-radius:10px;
+    cursor:pointer; margin-top:0.5rem; letter-spacing:0.02em; transition:all 0.2s;
+    box-shadow:0 0 20px rgba(0,201,167,0.25);
+  }
+  .calc-btn:hover { box-shadow:0 0 40px rgba(0,201,167,0.45); transform:translateY(-1px); }
+
+  .results-panel {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:14px; padding:1.8rem;
+    display:flex; flex-direction:column; gap:0;
+  }
+
+  .result-item { padding:1rem 0; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+  .result-item:last-child { border-bottom:none; }
+  .result-label { font-family:var(--font-mono); font-size:0.78rem; color:var(--muted); letter-spacing:0.03em; }
+  .result-value { font-family:var(--font-mono); font-size:1.05rem; font-weight:700; color:var(--text); transition:all 0.3s; }
+  .result-value.positive { color:#4ade80; }
+  .result-value.negative { color:#f87171; }
+  .result-value.accent-teal { color:var(--accent); }
+
+  .profit-big {
+    text-align:center; padding:1.5rem;
+    border-radius:10px;
+    background:rgba(0,201,167,0.05);
+    border:1px solid rgba(0,201,167,0.18);
+    margin:1rem 0;
+  }
+  .profit-big .amount { font-family:var(--font-mono); font-size:2.2rem; font-weight:700; color:var(--accent); display:block; margin-bottom:0.2rem; }
+  .profit-big .sublabel { font-size:0.75rem; font-family:var(--font-mono); color:var(--muted); }
+
+  .margin-bar { margin-top:1rem; background:var(--surface); border-radius:100px; height:8px; overflow:hidden; }
+  .margin-fill { height:100%; border-radius:100px; background:linear-gradient(90deg,var(--accent),var(--accent2)); transition:width 0.6s cubic-bezier(0.34,1.56,0.64,1); width:0%; }
+  .margin-label { display:flex; justify-content:space-between; margin-top:0.5rem; font-family:var(--font-mono); font-size:0.72rem; color:var(--muted); }
+
+  .tip-box {
+    margin-top:1.2rem; padding:0.9rem 1rem; border-radius:8px;
+    background:rgba(59,130,246,0.07);
+    border:1px solid rgba(59,130,246,0.2);
+    font-size:0.8rem; color:var(--accent3); font-family:var(--font-mono); line-height:1.5;
+    display:none;
+  }
+  .tip-box.show { display:block; }
+
+  .presets { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.5rem; }
+  .preset-btn {
+    font-family:var(--font-mono); font-size:0.72rem; background:var(--surface);
+    border:1px solid var(--border); color:var(--muted);
+    padding:0.35rem 0.8rem; border-radius:6px; cursor:pointer; transition:all 0.2s;
+  }
+  .preset-btn:hover { border-color:var(--accent2); color:var(--accent2); }
+
+  /* FOOTER */
+  footer {
+    text-align:center; padding:2rem; color:var(--muted);
+    font-family:var(--font-mono); font-size:0.72rem;
+    border-top:1px solid var(--border); position:relative; z-index:1;
+  }
+  footer a { color:var(--accent); text-decoration:none; }
+
+
+  /* ===== TRANSLATOR ===== */
+  .trans-layout {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1rem;
+    align-items: start;
+  }
+  @media(max-width:720px) {
+    .trans-layout { grid-template-columns: 1fr; }
+  }
+
+  .trans-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .trans-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .trans-lang-select {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.4rem 0.7rem;
+    border-radius: 7px;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    letter-spacing: 0.03em;
+  }
+  .trans-lang-select:focus { border-color: var(--accent); }
+  .trans-lang-select option { background: var(--surface); color: var(--text); }
+
+  .trans-textarea {
+    width: 100%;
+    min-height: 180px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    padding: 1rem;
+    border-radius: 10px;
+    outline: none;
+    resize: vertical;
+    transition: border-color 0.2s;
+  }
+  .trans-textarea:focus { border-color: var(--accent); }
+  .trans-textarea::placeholder { color: var(--muted); }
+  .trans-textarea[readonly] {
+    background: rgba(0,201,167,0.03);
+    border-color: rgba(0,201,167,0.15);
+    color: var(--text);
+    cursor: default;
+  }
+
+  .trans-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .trans-char-count {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+
+  .trans-copy-btn {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.3rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .trans-copy-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+  .trans-copy-btn.copied { border-color: var(--accent); color: var(--accent); }
+
+  .trans-clear-btn {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.3rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .trans-clear-btn:hover { border-color: #f87171; color: #f87171; }
+
+  .trans-middle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    padding-top: 3.5rem;
+  }
+  @media(max-width:720px) {
+    .trans-middle { flex-direction: row; padding-top: 0; justify-content: center; }
+  }
+
+  .trans-go-btn {
+    background: linear-gradient(135deg, var(--accent), #00a88a);
+    color: #000;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.85rem;
+    padding: 0.75rem 1.2rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    transition: all 0.2s;
+    box-shadow: 0 0 20px rgba(0,201,167,0.25);
+    white-space: nowrap;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+  @media(max-width:720px) {
+    .trans-go-btn { writing-mode: horizontal-tb; width: 100%; }
+  }
+  .trans-go-btn:hover { box-shadow: 0 0 40px rgba(0,201,167,0.45); transform: scale(1.04); }
+  .trans-go-btn:disabled { opacity: 0.6; cursor: wait; }
+
+  .trans-swap-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--accent2);
+    font-size: 1.2rem;
+    width: 38px; height: 38px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .trans-swap-btn:hover { border-color: var(--accent2); background: rgba(212,160,23,0.08); transform: rotate(180deg); }
+
+  .trans-status {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    padding: 0.5rem;
+    border-radius: 6px;
+    min-height: 1.8rem;
+    transition: all 0.3s;
+  }
+  .trans-status.loading { color: var(--accent3); }
+  .trans-status.error   { color: #f87171; }
+  .trans-status.success { color: var(--accent); }
+
+  .trans-quick-langs {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+  .trans-quick-btn {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.28rem 0.7rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .trans-quick-btn:hover { border-color: var(--accent3); color: var(--accent3); }
+
+  .trans-history {
+    margin-top: 2rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.4rem;
+  }
+  .trans-history h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    letter-spacing: 0.05em;
+  }
+  .trans-history-list { display: flex; flex-direction: column; gap: 0.6rem; }
+  .trans-history-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0.8rem;
+    align-items: center;
+    font-size: 0.82rem;
+    line-height: 1.4;
+  }
+  .trans-history-arrow { color: var(--accent2); font-size: 0.9rem; text-align: center; }
+  .trans-history-lang {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-bottom: 0.2rem;
+  }
+  .trans-no-history {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-align: center;
+    padding: 1rem;
+  }
+  .trans-clear-history {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    float: right;
+    transition: color 0.2s;
+  }
+  .trans-clear-history:hover { color: #f87171; }
+
+  @media(max-width:720px) {
+    .calc-layout { grid-template-columns:1fr; }
+    .tool-grid { grid-template-columns:1fr; }
+    h1 { font-size:2.2rem; }
+    .hero { padding:3rem 1rem 2rem; }
+    .section { padding:2rem 1rem 4rem; }
+    .optin-section { padding:0.5rem 1rem 3rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Loumia<span>Solutions</span></div>
+  <div class="nav-right">
+    <div class="nav-links">
+      <button class="nav-btn active" onclick="showSection('home',this)">Home</button>
+      <button class="nav-btn" onclick="showSection('tools',this)">AI Tools</button>
+      <button class="nav-btn" onclick="showSection('calculator',this)">Calculator</button>
+      <button class="nav-btn" onclick="showSection('translator',this)">Translate</button>
+    </div>
+    <div class="currency-switcher" title="Switch currency">
+      <span class="currency-flag" id="currencyFlag">🌍</span>
+      <select id="currencySelect" onchange="switchCurrency(this.value)">
+        <option value="USD">USD $</option>
+        <option value="EUR">EUR €</option>
+        <option value="GBP">GBP £</option>
+        <option value="ZAR">ZAR R</option>
+        <option value="NGN">NGN ₦</option>
+        <option value="KES">KES KSh</option>
+        <option value="GHS">GHS ₵</option>
+        <option value="AUD">AUD A$</option>
+        <option value="CAD">CAD C$</option>
+        <option value="INR">INR ₹</option>
+        <option value="MYR">MYR RM</option>
+        <option value="SGD">SGD S$</option>
+        <option value="AED">AED د.إ</option>
+      </select>
+    </div>
+  </div>
+</nav>
+
+<!-- HOME HERO -->
+<div class="hero" id="home">
+  <div class="hero-badge">✦ FREE UTILITY PLATFORM</div>
+  <h1>
+    Your <span class="hl-teal">AI Tools</span> Hub<br>+ <span class="hl-gold">Profit</span> <span class="hl-blue">Calculator</span> + <span class="hl-teal">Translator</span>
+  </h1>
+  <p class="hero-sub">Discover the best AI tools, calculate your real profit margins, and translate content into 30+ languages — all in one place, completely free.</p>
+  <div class="hero-ctas">
+    <button class="btn-primary" onclick="showSection('tools', document.querySelectorAll('.nav-btn')[1])">Browse AI Tools →</button>
+    <button class="btn-ghost" onclick="showSection('calculator', document.querySelectorAll('.nav-btn')[2])">Open Calculator</button>
+  </div>
+  <div style="display:flex;gap:2rem;justify-content:center;margin-top:4rem;flex-wrap:wrap;">
+    <div style="text-align:center;"><div class="stat-num-teal">24+</div><div class="stat-lbl">AI Tools Listed</div></div>
+    <div style="text-align:center;"><div class="stat-num-gold">100%</div><div class="stat-lbl">Free to Use</div></div>
+    <div style="text-align:center;"><div class="stat-num-blue">30+</div><div class="stat-lbl">Languages</div></div>
+  </div>
+</div>
+
+<!-- EMAIL OPT-IN -->
+<div class="optin-section" id="optinSection">
+  <div class="optin-card">
+    <div class="optin-badge">✦ FREE WEEKLY NEWSLETTER</div>
+    <div class="optin-title">Get the <span class="hl-gold">Best AI Tools</span><br>Delivered to You</div>
+    <p class="optin-sub">Join digital creators getting weekly AI tool picks, profit tips, and income strategies — straight to your inbox. Free forever.</p>
+    <div class="optin-perks">
+      <div class="optin-perk"><span>✓</span> Weekly AI tool roundups</div>
+      <div class="optin-perk"><span>✓</span> Profit calculator templates</div>
+      <div class="optin-perk"><span>✓</span> Faceless marketing tips</div>
+      <div class="optin-perk"><span>✓</span> No spam, ever</div>
+    </div>
+    <div class="optin-form" id="optinForm">
+      <input class="optin-input" type="text" id="optinName" placeholder="First name" autocomplete="given-name">
+      <input class="optin-input" type="email" id="optinEmail" placeholder="Email address" autocomplete="email">
+      <button class="optin-btn" id="optinBtn" onclick="submitOptin()">Get Free Access →</button>
+    </div>
+    <div class="optin-error-msg" id="optinErrorMsg"></div>
+    <div class="optin-success" id="optinSuccess">
+      🎉 You're in! Check your inbox for a welcome gift. Welcome to the community!
+    </div>
+    <p class="optin-privacy">🔒 Your info is safe · Unsubscribe anytime · No spam</p>
+
+
+  </div>
+</div>
+
+<!-- AI TOOLS SECTION -->
+<div id="tools" class="section">
+  <div class="section-header">
+    <div class="section-label">// DIRECTORY</div>
+    <div class="section-title">AI Tools for Creators</div>
+    <div class="section-desc">Handpicked tools for content creation, marketing, and digital income.</div>
+  </div>
+  <div class="filter-tabs">
+    <button class="filter-tab active" onclick="filterTools('all',this)">All</button>
+    <button class="filter-tab" onclick="filterTools('content',this)">Content</button>
+    <button class="filter-tab" onclick="filterTools('image',this)">Image</button>
+    <button class="filter-tab" onclick="filterTools('video',this)">Video</button>
+    <button class="filter-tab" onclick="filterTools('writing',this)">Writing</button>
+    <button class="filter-tab" onclick="filterTools('social',this)">Social</button>
+    <button class="filter-tab" onclick="filterTools('business',this)">Business</button>
+  </div>
+  <div class="tool-grid" id="toolGrid"></div>
+</div>
+
+<!-- CALCULATOR SECTION -->
+<div id="calculator" class="section">
+  <div class="section-header">
+    <div class="section-label">// PROFIT CALCULATOR</div>
+    <div class="section-title">Digital Income Calculator</div>
+    <div class="section-desc">Calculate your real profit from digital products, services, or affiliate marketing.</div>
+  </div>
+  <div style="margin-bottom:1.2rem;">
+    <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--muted);margin-bottom:0.5rem;">QUICK PRESETS</div>
+    <div class="presets">
+      <button class="preset-btn" onclick="loadPreset('ebook')">📘 E-book</button>
+      <button class="preset-btn" onclick="loadPreset('course')">🎓 Online Course</button>
+      <button class="preset-btn" onclick="loadPreset('template')">🗂 Template Pack</button>
+      <button class="preset-btn" onclick="loadPreset('affiliate')">🔗 Affiliate</button>
+      <button class="preset-btn" onclick="loadPreset('coaching')">💬 Coaching</button>
+    </div>
+  </div>
+  <div class="calc-layout">
+    <div class="calc-panel">
+      <h3><span class="dot-teal"></span> Income & Costs</h3>
+      <div class="form-group">
+        <label>PRODUCT / SERVICE TYPE</label>
+        <select id="productType">
+          <option value="digital">Digital Product</option>
+          <option value="service">Service / Coaching</option>
+          <option value="affiliate">Affiliate Marketing</option>
+          <option value="subscription">Subscription</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>PRICE PER SALE (<span id="calcCurrencySymbol">$</span>)</label>
+        <input type="number" id="price" placeholder="0.00" min="0" oninput="calculate()">
+      </div>
+      <div class="form-group">
+        <label>UNITS SOLD / MONTH</label>
+        <input type="number" id="units" placeholder="0" min="0" oninput="calculate()">
+      </div>
+      <div class="form-group">
+        <label>PLATFORM FEE (%) — Gumroad 10%, Stan 5%</label>
+        <input type="number" id="platformFee" placeholder="0" min="0" max="100" oninput="calculate()">
+      </div>
+      <div class="form-group">
+        <label>PAYMENT PROCESSOR FEE (%)</label>
+        <input type="number" id="processorFee" value="2.9" min="0" max="100" oninput="calculate()">
+      </div>
+      <div class="form-group">
+        <label>AD SPEND / MARKETING (<span class="calcCurr">$</span>)</label>
+        <input type="number" id="adSpend" placeholder="0.00" min="0" oninput="calculate()">
+      </div>
+      <div class="form-group">
+        <label>OTHER MONTHLY COSTS (<span class="calcCurr">$</span>)</label>
+        <input type="number" id="otherCosts" placeholder="0.00" min="0" oninput="calculate()">
+      </div>
+      <button class="calc-btn" onclick="calculate()">⚡ Calculate Profit</button>
+    </div>
+
+    <div>
+      <div class="results-panel">
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;">
+          <span class="dot-gold"></span> Results
+        </h3>
+        <div class="profit-big">
+          <span class="amount" id="netProfitBig">$0.00</span>
+          <span class="sublabel">NET PROFIT / MONTH</span>
+        </div>
+        <div class="result-item"><span class="result-label">GROSS REVENUE</span><span class="result-value" id="grossRevenue">$0.00</span></div>
+        <div class="result-item"><span class="result-label">PLATFORM FEES</span><span class="result-value negative" id="platformFeeAmt">−$0.00</span></div>
+        <div class="result-item"><span class="result-label">PROCESSOR FEES</span><span class="result-value negative" id="processorFeeAmt">−$0.00</span></div>
+        <div class="result-item"><span class="result-label">AD SPEND</span><span class="result-value negative" id="adSpendAmt">−$0.00</span></div>
+        <div class="result-item"><span class="result-label">OTHER COSTS</span><span class="result-value negative" id="otherCostsAmt">−$0.00</span></div>
+        <div class="result-item"><span class="result-label">TOTAL COSTS</span><span class="result-value negative" id="totalCosts">−$0.00</span></div>
+        <div class="result-item"><span class="result-label">PROFIT MARGIN</span><span class="result-value accent-teal" id="marginPct">0%</span></div>
+        <div class="result-item"><span class="result-label">ANNUAL PROJECTION</span><span class="result-value" id="annualProfit">$0.00</span></div>
+        <div style="margin-top:0.5rem;">
+          <div class="margin-bar"><div class="margin-fill" id="marginBar"></div></div>
+          <div class="margin-label"><span>0%</span><span>100%</span></div>
+        </div>
+      </div>
+      <div class="tip-box" id="tipBox"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- TRANSLATOR SECTION -->
+<div id="translator" class="section">
+  <div class="section-header">
+    <div class="section-label">// TEXT TRANSLATOR</div>
+    <div class="section-title">Translate Anything</div>
+    <div class="section-desc">Translate text into 30+ languages instantly. Free, fast, and no account needed.</div>
+  </div>
+
+  <!-- Quick language targets -->
+  <div style="margin-bottom:1.5rem;">
+    <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--muted);margin-bottom:0.6rem;">QUICK TRANSLATE TO</div>
+    <div class="trans-quick-langs" id="quickLangs">
+      <button class="trans-quick-btn" onclick="quickTranslate('fr')">🇫🇷 French</button>
+      <button class="trans-quick-btn" onclick="quickTranslate('es')">🇪🇸 Spanish</button>
+      <button class="trans-quick-btn" onclick="quickTranslate('pt')">🇵🇹 Portuguese</button>
+      <button class="trans-quick-btn" onclick="quickTranslate('de')">🇩🇪 German</button>
+      <button class="trans-quick-btn" onclick="quickTranslate('zh')">🇨🇳 Chinese</button>
+      <button class="trans-quick-btn" onclick="quickTranslate('ar')">🇸🇦 Arabic</button>
+      <button class="trans-quick-btn" onclick="quickTranslate('sw')">🌍 Swahili</button>
+      <button class="trans-quick-btn" onclick="quickTranslate('yo')">🇳🇬 Yoruba</button>
+      <button class="trans-quick-btn" onclick="quickTranslate('ha')">🇳🇬 Hausa</button>
+      <button class="trans-quick-btn" onclick="quickTranslate('af')">🇿🇦 Afrikaans</button>
+      <button class="trans-quick-btn" onclick="quickTranslate('hi')">🇮🇳 Hindi</button>
+      <button class="trans-quick-btn" onclick="quickTranslate('ja')">🇯🇵 Japanese</button>
+    </div>
+  </div>
+
+  <div class="trans-layout">
+    <!-- SOURCE -->
+    <div class="trans-panel">
+      <div class="trans-panel-header">
+        <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--muted);letter-spacing:0.05em;">SOURCE TEXT</div>
+        <select class="trans-lang-select" id="sourceLang">
+          <option value="en">🇬🇧 English</option>
+          <option value="fr">🇫🇷 French</option>
+          <option value="es">🇪🇸 Spanish</option>
+          <option value="pt">🇵🇹 Portuguese</option>
+          <option value="de">🇩🇪 German</option>
+          <option value="it">🇮🇹 Italian</option>
+          <option value="nl">🇳🇱 Dutch</option>
+          <option value="ru">🇷🇺 Russian</option>
+          <option value="zh">🇨🇳 Chinese</option>
+          <option value="ja">🇯🇵 Japanese</option>
+          <option value="ko">🇰🇷 Korean</option>
+          <option value="ar">🇸🇦 Arabic</option>
+          <option value="hi">🇮🇳 Hindi</option>
+          <option value="sw">🌍 Swahili</option>
+          <option value="yo">🇳🇬 Yoruba</option>
+          <option value="ha">🇳🇬 Hausa</option>
+          <option value="af">🇿🇦 Afrikaans</option>
+          <option value="zu">🇿🇦 Zulu</option>
+          <option value="id">🇮🇩 Indonesian</option>
+          <option value="ms">🇲🇾 Malay</option>
+          <option value="tr">🇹🇷 Turkish</option>
+          <option value="pl">🇵🇱 Polish</option>
+          <option value="ro">🇷🇴 Romanian</option>
+          <option value="sv">🇸🇪 Swedish</option>
+          <option value="da">🇩🇰 Danish</option>
+          <option value="fi">🇫🇮 Finnish</option>
+          <option value="el">🇬🇷 Greek</option>
+          <option value="he">🇮🇱 Hebrew</option>
+          <option value="th">🇹🇭 Thai</option>
+          <option value="vi">🇻🇳 Vietnamese</option>
+          <option value="uk">🇺🇦 Ukrainian</option>
+        </select>
+      </div>
+      <textarea class="trans-textarea" id="sourceText" placeholder="Type or paste your text here..." oninput="updateCharCount()" maxlength="2000"></textarea>
+      <div class="trans-footer">
+        <span class="trans-char-count"><span id="charCount">0</span> / 2000 characters</span>
+        <div style="display:flex;gap:0.5rem;">
+          <button class="trans-clear-btn" onclick="clearTranslation()">✕ Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MIDDLE CONTROLS -->
+    <div class="trans-middle">
+      <button class="trans-swap-btn" onclick="swapLanguages()" title="Swap languages">⇄</button>
+      <button class="trans-go-btn" id="transBtn" onclick="doTranslate()">T R A N S L A T E</button>
+      <div class="trans-status" id="transStatus"></div>
+    </div>
+
+    <!-- TARGET -->
+    <div class="trans-panel">
+      <div class="trans-panel-header">
+        <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--muted);letter-spacing:0.05em;">TRANSLATION</div>
+        <select class="trans-lang-select" id="targetLang">
+          <option value="fr">🇫🇷 French</option>
+          <option value="es">🇪🇸 Spanish</option>
+          <option value="pt">🇵🇹 Portuguese</option>
+          <option value="de">🇩🇪 German</option>
+          <option value="it">🇮🇹 Italian</option>
+          <option value="nl">🇳🇱 Dutch</option>
+          <option value="ru">🇷🇺 Russian</option>
+          <option value="zh">🇨🇳 Chinese</option>
+          <option value="ja">🇯🇵 Japanese</option>
+          <option value="ko">🇰🇷 Korean</option>
+          <option value="ar">🇸🇦 Arabic</option>
+          <option value="hi">🇮🇳 Hindi</option>
+          <option value="en">🇬🇧 English</option>
+          <option value="sw">🌍 Swahili</option>
+          <option value="yo">🇳🇬 Yoruba</option>
+          <option value="ha">🇳🇬 Hausa</option>
+          <option value="af">🇿🇦 Afrikaans</option>
+          <option value="zu">🇿🇦 Zulu</option>
+          <option value="id">🇮🇩 Indonesian</option>
+          <option value="ms">🇲🇾 Malay</option>
+          <option value="tr">🇹🇷 Turkish</option>
+          <option value="pl">🇵🇱 Polish</option>
+          <option value="ro">🇷🇴 Romanian</option>
+          <option value="sv">🇸🇪 Swedish</option>
+          <option value="da">🇩🇰 Danish</option>
+          <option value="fi">🇫🇮 Finnish</option>
+          <option value="el">🇬🇷 Greek</option>
+          <option value="he">🇮🇱 Hebrew</option>
+          <option value="th">🇹🇭 Thai</option>
+          <option value="vi">🇻🇳 Vietnamese</option>
+          <option value="uk">🇺🇦 Ukrainian</option>
+        </select>
+      </div>
+      <textarea class="trans-textarea" id="outputText" placeholder="Translation will appear here..." readonly></textarea>
+      <div class="trans-footer">
+        <span class="trans-char-count" id="outputCharCount">0 characters</span>
+        <button class="trans-copy-btn" id="copyBtn" onclick="copyTranslation()">⧉ Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTORY -->
+  <div class="trans-history" id="transHistoryBox">
+    <h4>
+      RECENT TRANSLATIONS
+      <button class="trans-clear-history" onclick="clearHistory()">Clear all</button>
+    </h4>
+    <div class="trans-history-list" id="transHistoryList">
+      <div class="trans-no-history" id="noHistoryMsg">No translations yet — try one above!</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Built for digital creators · <a href="#">Loumia Solutions</a> · Free forever
+</footer>
+
+<script>
+// ===== CURRENCY =====
+const currencies = {
+  USD: { symbol:'$',   rate:1,     flag:'🇺🇸' },
+  EUR: { symbol:'€',   rate:0.92,  flag:'🇪🇺' },
+  GBP: { symbol:'£',   rate:0.79,  flag:'🇬🇧' },
+  ZAR: { symbol:'R',   rate:18.6,  flag:'🇿🇦' },
+  NGN: { symbol:'₦',   rate:1550,  flag:'🇳🇬' },
+  KES: { symbol:'KSh', rate:130,   flag:'🇰🇪' },
+  GHS: { symbol:'₵',   rate:15.5,  flag:'🇬🇭' },
+  AUD: { symbol:'A$',  rate:1.53,  flag:'🇦🇺' },
+  CAD: { symbol:'C$',  rate:1.36,  flag:'🇨🇦' },
+  INR: { symbol:'₹',   rate:83.5,  flag:'🇮🇳' },
+  MYR: { symbol:'RM',  rate:4.7,   flag:'🇲🇾' },
+  SGD: { symbol:'S$',  rate:1.34,  flag:'🇸🇬' },
+  AED: { symbol:'د.إ', rate:3.67,  flag:'🇦🇪' },
+};
+let activeCurrency = 'USD';
+
+function switchCurrency(code) {
+  activeCurrency = code;
+  document.getElementById('currencyFlag').textContent = currencies[code].flag;
+  const sym = currencies[code].symbol;
+  document.getElementById('calcCurrencySymbol').textContent = sym;
+  document.querySelectorAll('.calcCurr').forEach(el => el.textContent = sym);
+  calculate();
+}
+
+function fmt(n) {
+  const c = currencies[activeCurrency];
+  return c.symbol + (Math.abs(n) * c.rate).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+
+// ===== EMAIL OPT-IN =====
+function submitOptin() {
+  const nameEl  = document.getElementById('optinName');
+  const emailEl = document.getElementById('optinEmail');
+  const errMsg  = document.getElementById('optinErrorMsg');
+  const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  nameEl.classList.remove('error');
+  emailEl.classList.remove('error');
+  errMsg.classList.remove('show');
+
+  if (!nameEl.value.trim()) {
+    nameEl.classList.add('error');
+    errMsg.textContent = 'Please enter your first name.';
+    errMsg.classList.add('show');
+    return;
+  }
+  if (!emailRx.test(emailEl.value.trim())) {
+    emailEl.classList.add('error');
+    errMsg.textContent = 'Please enter a valid email address.';
+    errMsg.classList.add('show');
+    return;
+  }
+
+  document.getElementById('optinForm').style.display = 'none';
+  document.getElementById('optinSuccess').classList.add('show');
+}
+// ===== NAVIGATION =====
+window.showSection = function(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  const isHome = id === 'home';
+  document.getElementById('home').style.display = isHome ? 'block' : 'none';
+  document.getElementById('optinSection').style.display = isHome ? 'block' : 'none';
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  if (!isHome) document.getElementById(id).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+// ===== AI TOOLS =====
+const tools = [
+  { name:"ChatGPT",      icon:"🤖", desc:"The world's most popular AI chatbot. Write, brainstorm, plan, and automate.",         cat:"content writing social",   accent:"#00c9a7", bg:"rgba(0,201,167,0.1)",  pricing:"freemium", url:"https://chat.openai.com" },
+  { name:"Claude",       icon:"✦",  desc:"Advanced AI by Anthropic. Great for long-form content, analysis, and strategy.",       cat:"content writing business", accent:"#d4a017", bg:"rgba(212,160,23,0.1)", pricing:"freemium", url:"https://claude.ai" },
+  { name:"Canva AI",     icon:"🎨", desc:"Design anything with AI. Perfect for social media graphics and presentations.",         cat:"image social content",     accent:"#3b82f6", bg:"rgba(59,130,246,0.1)", pricing:"freemium", url:"https://canva.com" },
+  { name:"Midjourney",   icon:"🖼️", desc:"World-class AI image generation. Used by top creators globally.",                      cat:"image content",            accent:"#00c9a7", bg:"rgba(0,201,167,0.1)",  pricing:"paid",     url:"https://midjourney.com" },
+  { name:"Runway",       icon:"🎬", desc:"Generate and edit AI videos in seconds. The future of video creation.",                 cat:"video content",            accent:"#d4a017", bg:"rgba(212,160,23,0.1)", pricing:"freemium", url:"https://runwayml.com" },
+  { name:"ElevenLabs",   icon:"🎙️", desc:"Hyper-realistic AI voice generator. Perfect for faceless content creators.",           cat:"content video",            accent:"#3b82f6", bg:"rgba(59,130,246,0.1)", pricing:"freemium", url:"https://elevenlabs.io" },
+  { name:"Jasper AI",    icon:"✍️", desc:"AI copywriting for ads, blogs, emails, and social media at scale.",                    cat:"writing content social",   accent:"#00c9a7", bg:"rgba(0,201,167,0.1)",  pricing:"paid",     url:"https://jasper.ai" },
+  { name:"Copy.ai",      icon:"📝", desc:"Generate marketing copy, product descriptions, and social captions instantly.",         cat:"writing social",           accent:"#d4a017", bg:"rgba(212,160,23,0.1)", pricing:"freemium", url:"https://copy.ai" },
+  { name:"Descript",     icon:"🎞️", desc:"Edit video by editing text. Remove filler words with one click.",                      cat:"video content",            accent:"#3b82f6", bg:"rgba(59,130,246,0.1)", pricing:"freemium", url:"https://descript.com" },
+  { name:"Notion AI",    icon:"📄", desc:"AI built into your workspace. Write, summarize, and plan faster.",                     cat:"writing business content", accent:"#00c9a7", bg:"rgba(0,201,167,0.1)",  pricing:"freemium", url:"https://notion.so" },
+  { name:"Pictory",      icon:"📹", desc:"Turn blog posts or scripts into short videos automatically.",                           cat:"video social content",     accent:"#d4a017", bg:"rgba(212,160,23,0.1)", pricing:"freemium", url:"https://pictory.ai" },
+  { name:"Pika Labs",    icon:"✨", desc:"Generate stunning AI videos from text prompts in seconds.",                             cat:"video image",              accent:"#3b82f6", bg:"rgba(59,130,246,0.1)", pricing:"freemium", url:"https://pika.art" },
+  { name:"Adobe Firefly",icon:"🔥", desc:"Generative AI for images built into Adobe Creative Cloud.",                            cat:"image content",            accent:"#00c9a7", bg:"rgba(0,201,167,0.1)",  pricing:"freemium", url:"https://firefly.adobe.com" },
+  { name:"Buffer AI",    icon:"📱", desc:"Schedule and generate social media posts with built-in AI.",                           cat:"social business",          accent:"#d4a017", bg:"rgba(212,160,23,0.1)", pricing:"freemium", url:"https://buffer.com" },
+  { name:"Surfer SEO",   icon:"🏄", desc:"AI-powered SEO content optimizer. Rank higher with data-driven writing.",              cat:"writing business",         accent:"#3b82f6", bg:"rgba(59,130,246,0.1)", pricing:"paid",     url:"https://surferseo.com" },
+  { name:"Synthesia",    icon:"👤", desc:"Create AI avatar videos. Faceless video marketing made easy.",                         cat:"video social",             accent:"#00c9a7", bg:"rgba(0,201,167,0.1)",  pricing:"freemium", url:"https://synthesia.io" },
+  { name:"Perplexity AI",icon:"🔍", desc:"AI-powered search and research. Cited answers with real sources.",                     cat:"writing business content", accent:"#d4a017", bg:"rgba(212,160,23,0.1)", pricing:"freemium", url:"https://perplexity.ai" },
+  { name:"Loom AI",      icon:"📸", desc:"Record and share videos with AI-generated titles and summaries.",                      cat:"video business",           accent:"#3b82f6", bg:"rgba(59,130,246,0.1)", pricing:"freemium", url:"https://loom.com" },
+  { name:"Leonardo.ai",  icon:"🖌️", desc:"AI art generation for creators. Custom models and image editing.",                    cat:"image content",            accent:"#00c9a7", bg:"rgba(0,201,167,0.1)",  pricing:"freemium", url:"https://leonardo.ai" },
+  { name:"Beehiiv AI",   icon:"🐝", desc:"Newsletter platform with built-in AI writing and growth tools.",                       cat:"writing social business",  accent:"#d4a017", bg:"rgba(212,160,23,0.1)", pricing:"freemium", url:"https://beehiiv.com" },
+  { name:"Otter.ai",     icon:"🦦", desc:"AI meeting transcriptions and notes. Never miss an idea.",                             cat:"business content",         accent:"#3b82f6", bg:"rgba(59,130,246,0.1)", pricing:"freemium", url:"https://otter.ai" },
+  { name:"Typeface",     icon:"🅣", desc:"Brand-safe AI content generation for marketing teams.",                                cat:"content writing business", accent:"#00c9a7", bg:"rgba(0,201,167,0.1)",  pricing:"paid",     url:"https://typeface.ai" },
+  { name:"Kling AI",     icon:"🎥", desc:"Next-gen AI video generation from images and text prompts.",                           cat:"video image",              accent:"#d4a017", bg:"rgba(212,160,23,0.1)", pricing:"freemium", url:"https://klingai.com" },
+  { name:"Grok",         icon:"⚡", desc:"xAI's powerful AI assistant with real-time web access.",                              cat:"content writing business", accent:"#3b82f6", bg:"rgba(59,130,246,0.1)", pricing:"freemium", url:"https://grok.com" },
+];
+
+function renderTools(filter='all') {
+  const grid = document.getElementById('toolGrid');
+  grid.innerHTML = '';
+  tools.forEach(tool => {
+    const visible = filter==='all' || tool.cat.includes(filter);
+    const pLabel = tool.pricing==='freemium'?'FREEMIUM':tool.pricing==='free'?'FREE':'PAID';
+    const card = document.createElement('div');
+    card.className = 'tool-card' + (visible?'':' hidden');
+    card.style.setProperty('--tool-accent', tool.accent);
+    card.style.setProperty('--tool-bg', tool.bg);
+    card.innerHTML = `
+      <div class="tool-icon">${tool.icon}</div>
+      <div class="tool-name">${tool.name}</div>
+      <div class="tool-desc">${tool.desc}</div>
+      <div class="tool-footer">
+        <span class="tool-tag" style="border-color:${tool.accent};color:${tool.accent}">${tool.cat.split(' ')[0].toUpperCase()}</span>
+        <div style="display:flex;align-items:center;gap:0.6rem;">
+          <span class="tool-pricing ${tool.pricing}">${pLabel}</span>
+          <a class="tool-link" href="${tool.url}" target="_blank" rel="noopener">Visit →</a>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+function filterTools(cat, btn) {
+  document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderTools(cat);
+}
+renderTools();
+
+// ===== CALCULATOR =====
+function calculate() {
+  const price = parseFloat(document.getElementById('price').value)||0;
+  const units = parseFloat(document.getElementById('units').value)||0;
+  const pFee  = parseFloat(document.getElementById('platformFee').value)||0;
+  const prFee = parseFloat(document.getElementById('processorFee').value)||2.9;
+  const ad    = parseFloat(document.getElementById('adSpend').value)||0;
+  const other = parseFloat(document.getElementById('otherCosts').value)||0;
+
+  const gross = price * units;
+  const pfAmt = gross * (pFee/100);
+  const prAmt = gross * (prFee/100);
+  const total = pfAmt + prAmt + ad + other;
+  const net   = gross - total;
+  const margin= gross>0?(net/gross)*100:0;
+
+  document.getElementById('grossRevenue').textContent   = fmt(gross);
+  document.getElementById('platformFeeAmt').textContent = '−'+fmt(pfAmt);
+  document.getElementById('processorFeeAmt').textContent= '−'+fmt(prAmt);
+  document.getElementById('adSpendAmt').textContent     = '−'+fmt(ad);
+  document.getElementById('otherCostsAmt').textContent  = '−'+fmt(other);
+  document.getElementById('totalCosts').textContent     = '−'+fmt(total);
+  document.getElementById('marginPct').textContent      = margin.toFixed(1)+'%';
+  document.getElementById('annualProfit').textContent   = fmt(net*12);
+
+  const bigEl = document.getElementById('netProfitBig');
+  bigEl.textContent = (net<0?'−':'')+fmt(net);
+  bigEl.style.color = net<0?'#f87171':'var(--accent)';
+  bigEl.parentElement.style.borderColor = net<0?'rgba(248,113,113,0.25)':'rgba(0,201,167,0.18)';
+  bigEl.parentElement.style.background  = net<0?'rgba(248,113,113,0.04)':'rgba(0,201,167,0.05)';
+  document.getElementById('marginBar').style.width = Math.max(0,Math.min(100,margin))+'%';
+
+  const tip = document.getElementById('tipBox');
+  if (gross>0) {
+    let msg='';
+    if(margin<20) msg='⚠️ Low margin. Try reducing ad spend or raising your price.';
+    else if(margin<50) msg='👍 Decent margin. Scaling volume will amplify this quickly.';
+    else if(margin<80) msg='🚀 Strong margin! Focus on increasing units sold.';
+    else msg='🔥 Exceptional margin! This product is highly profitable — time to scale.';
+    tip.textContent=msg; tip.classList.add('show');
+  } else { tip.classList.remove('show'); }
+}
+
+const presets={
+  ebook:    {price:27,  units:30, pFee:10, prFee:2.9, ad:50,  other:20},
+  course:   {price:197, units:10, pFee:5,  prFee:2.9, ad:200, other:50},
+  template: {price:17,  units:50, pFee:10, prFee:2.9, ad:30,  other:15},
+  affiliate:{price:40,  units:25, pFee:0,  prFee:0,   ad:100, other:30},
+  coaching: {price:500, units:4,  pFee:0,  prFee:2.9, ad:0,   other:50},
+};
+function loadPreset(k) {
+  const p=presets[k];
+  document.getElementById('price').value=p.price;
+  document.getElementById('units').value=p.units;
+  document.getElementById('platformFee').value=p.pFee;
+  document.getElementById('processorFee').value=p.prFee;
+  document.getElementById('adSpend').value=p.ad;
+  document.getElementById('otherCosts').value=p.other;
+  calculate();
+}
+</script>
+</body>
+</html>
+<script>
+// ===== TRANSLATOR =====
+var transHistory = [];
+var langNames = {
+  en:'English', fr:'French', es:'Spanish', pt:'Portuguese', de:'German',
+  it:'Italian', nl:'Dutch', ru:'Russian', zh:'Chinese', ja:'Japanese',
+  ko:'Korean', ar:'Arabic', hi:'Hindi', sw:'Swahili', yo:'Yoruba',
+  ha:'Hausa', af:'Afrikaans', zu:'Zulu', id:'Indonesian', ms:'Malay',
+  tr:'Turkish', pl:'Polish', ro:'Romanian', sv:'Swedish', da:'Danish',
+  fi:'Finnish', el:'Greek', he:'Hebrew', th:'Thai', vi:'Vietnamese', uk:'Ukrainian'
+};
+
+function updateCharCount() {
+  var len = document.getElementById('sourceText').value.length;
+  var el = document.getElementById('charCount');
+  el.textContent = len;
+  el.style.color = len > 1800 ? '#f87171' : len > 1400 ? 'var(--accent2)' : 'var(--muted)';
+}
+
+function quickTranslate(lang) {
+  document.getElementById('targetLang').value = lang;
+  if (document.getElementById('sourceText').value.trim()) doTranslate();
+}
+
+function swapLanguages() {
+  var src = document.getElementById('sourceLang');
+  var tgt = document.getElementById('targetLang');
+  var srcVal = src.value, tgtVal = tgt.value;
+  var outText = document.getElementById('outputText').value;
+  src.value = tgtVal;
+  tgt.value = srcVal;
+  if (outText.trim()) {
+    document.getElementById('sourceText').value = outText;
+    document.getElementById('outputText').value = '';
+    updateCharCount();
+  }
+}
+
+async function doTranslate() {
+  var text = document.getElementById('sourceText').value.trim();
+  var srcLang = document.getElementById('sourceLang').value;
+  var tgtLang = document.getElementById('targetLang').value;
+  var btn = document.getElementById('transBtn');
+  var status = document.getElementById('transStatus');
+  var output = document.getElementById('outputText');
+
+  if (!text) {
+    status.textContent = 'Please enter some text first.';
+    status.className = 'trans-status error';
+    return;
+  }
+  if (srcLang === tgtLang) {
+    status.textContent = 'Source and target languages must be different.';
+    status.className = 'trans-status error';
+    return;
+  }
+
+  btn.disabled = true;
+  output.value = '';
+  status.textContent = 'Translating...';
+  status.className = 'trans-status loading';
+  document.getElementById('outputCharCount').textContent = '...';
+
+  try {
+    var langPair = srcLang + '|' + tgtLang;
+    var url = 'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + langPair;
+    var res = await fetch(url);
+    var data = await res.json();
+
+    if (data.responseStatus === 200) {
+      var translated = data.responseData.translatedText;
+      output.value = translated;
+      document.getElementById('outputCharCount').textContent = translated.length + ' characters';
+      status.textContent = '✓ Translated successfully';
+      status.className = 'trans-status success';
+      addToHistory(text, translated, srcLang, tgtLang);
+    } else {
+      throw new Error(data.responseDetails || 'Translation failed');
+    }
+  } catch(e) {
+    status.textContent = 'Could not translate. Check your connection and try again.';
+    status.className = 'trans-status error';
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function copyTranslation() {
+  var text = document.getElementById('outputText').value;
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(function() { btn.textContent = '⧉ Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function clearTranslation() {
+  document.getElementById('sourceText').value = '';
+  document.getElementById('outputText').value = '';
+  document.getElementById('charCount').textContent = '0';
+  document.getElementById('outputCharCount').textContent = '0 characters';
+  document.getElementById('transStatus').textContent = '';
+  document.getElementById('transStatus').className = 'trans-status';
+}
+
+function addToHistory(src, out, srcLang, tgtLang) {
+  transHistory.unshift({ src:src, out:out, srcLang:srcLang, tgtLang:tgtLang });
+  if (transHistory.length > 5) transHistory.pop();
+  renderHistory();
+}
+
+function renderHistory() {
+  var list = document.getElementById('transHistoryList');
+  if (transHistory.length === 0) {
+    list.innerHTML = '<div class="trans-no-history">No translations yet — try one above!</div>';
+    return;
+  }
+  list.innerHTML = transHistory.map(function(h) {
+    var srcPreview = h.src.length > 80 ? h.src.substring(0,80) + '…' : h.src;
+    var outPreview = h.out.length > 80 ? h.out.substring(0,80) + '…' : h.out;
+    return '<div class="trans-history-item">' +
+      '<div><div class="trans-history-lang">' + (langNames[h.srcLang]||h.srcLang) + '</div><div>' + srcPreview + '</div></div>' +
+      '<div class="trans-history-arrow">→</div>' +
+      '<div><div class="trans-history-lang">' + (langNames[h.tgtLang]||h.tgtLang) + '</div><div>' + outPreview + '</div></div>' +
+      '</div>';
+  }).join('');
+}
+
+function clearHistory() {
+  transHistory = [];
+  renderHistory();
+}
+</script>
