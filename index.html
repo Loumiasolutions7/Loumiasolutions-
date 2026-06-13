@@ -1148,7 +1148,7 @@ function submitOptin() {
     errMsg.classList.add('show');
     return;
   }
-
+fetch('https://api.beehiiv.com/v2/publications/pub_b837ee92-3ad2-4387-9f7e-2481e05cff77/subscriptions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:emailEl.value.trim(),reactivate_existing:true,send_welcome_email:true})});
   document.getElementById('optinForm').style.display = 'none';
   document.getElementById('optinSuccess').classList.add('show');
 }
